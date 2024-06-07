@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+    container_name: nginx-certbot
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - certbot-data:/etc/letsencrypt
+
+volumes:
+  certbot-data:
