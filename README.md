@@ -10,7 +10,20 @@ For most web servers, the HTTP-01 challenge is the most straightforward and popu
 
 ## Steps
 
-- stop the nginx server on port 80
-- docker-compose build
-- docker-compose up -d
-- certbot --nginx (First try: certbot --nginx --dry-run )
+- Open Portainer: https://{PORTAINER_IP}:9443/#!/2/docker/containers
+- stop the nginx container nginx-legacy (to unblock port 80)
+- Open putty and connect to the terminal
+- go to /opt/legacy-cert
+- docker compose build (if needed)
+- docker compose up -d
+- docker exec -it nginx-certbot /bin/sh
+- certbot certonly --nginx (First try: certbot certonly --nginx --dry-run )
+- Go back to Portainer
+- stop the nginx-certbot container
+- start the nginx-legacy container
+
+the certificate is saved on volume legacy-cert_certbot-data
+
+Certificate is saved at: /etc/letsencrypt/live/legacy-backend.xyz/fullchain.pem
+Key is saved at: /etc/letsencrypt/live/legacy-backend.xyz/privkey.pem
+This certificate expires in a few months.
